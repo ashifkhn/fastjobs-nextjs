@@ -1,0 +1,84 @@
+.main-container {
+	height: 100%;
+	overflow: hidden;
+}
+
+.login-context-container {
+	width: 60%;
+	background-color: #5d5fef;
+	z-index: 7;
+}
+
+.username-password-container {
+	width: 40%;
+	background-color: #1c1d21;
+	z-index: 222;
+}
+
+.skills {
+	border: 2px solid white;
+	border-radius: 25px;
+	padding: 0.5rem 0.5rem;
+}
+
+.color-one {
+	position: absolute;
+	border-radius: 50%;
+	width: 60%;
+	height: 55%;
+	background-color: rgba(165, 166, 246, 0.25);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(55%, -50%);
+	z-index: 3;
+	overflow: hidden;
+	box-shadow: 0px 0px 92px -39px rgba(0, 0, 0, 0.25);
+}
+.color-two {
+	position: absolute;
+	border-radius: 50%;
+	width: 75%;
+	height: 85%;
+	background-color: rgba(120, 121, 241, 0.26);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(20%, -50%);
+	z-index: 2;
+	overflow: hidden;
+	box-shadow: 0px 0px 92px -39px rgba(0, 0, 0, 0.25);
+}
+.color-three {
+	position: absolute;
+	border-radius: 50%;
+	width: 80%;
+	height: 100%;
+	background-color: rgba(103, 104, 241, 0.25);
+	z-index: 1;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(0, -50%);
+	overflow: hidden;
+	box-shadow: 0px 0px 92px -39px rgba(0, 0, 0, 0.25);
+}
+
+.username-input {
+	outline: none;
+	line-height: 20px;
+	padding: 10px;
+	border-radius: 8px;
+	width: 296px;
+	background-color: #1c1d21;
+	border-color: #719ece;
+	border: 1px solid #fff;
+	color: #fff;
+}
+
+.btn-primary {
+	background-color: #b2baff;
+	padding: 10px;
+	border-radius: 8px;
+	width: 296px;
+}
