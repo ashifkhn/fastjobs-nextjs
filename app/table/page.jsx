@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Audio } from 'react-loader-spinner'
 import axios from 'axios'
-import { useTable, useSortBy } from 'react-table'
+import { useTable, useSortBy, useGlobalFilter } from 'react-table'
 import './table.css'
 import KanbanImage from './../assets/TablePage/kanban.svg'
 import TableView from './../assets/TablePage/Path 29.svg'
@@ -11,16 +11,20 @@ import Image from 'next/image'
 import Search from './../assets/TablePage/Search.svg'
 import Arrow from './../assets/TablePage/Vector.svg'
 import { useRouter } from 'next/navigation'
+import Cookies from 'js-cookie'
 
 const table = () => {
 	const [data, setData] = useState([])
+	const [searchData, setSearchData] = useState(data)
 	const [searchQuery, setSearchQuery] = useState('')
 	const [loader, setLoader] = useState(true)
 	const router = useRouter()
 	const SearchHandler = (e) => {
 		e.preventDefault()
 		setSearchQuery(e.target.value)
+		filterEvenResults()
 	}
+
 	const columns = React.useMemo(
 		() => [
 			{
@@ -47,8 +51,15 @@ const table = () => {
 		[]
 	)
 
-	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-		useTable({ columns, data }, useSortBy)
+	const {
+		getTableProps,
+		getTableBodyProps,
+		headerGroups,
+		rows,
+		prepareRow,
+		state,
+		setGlobalFilter,
+	} = useTable({ columns, data }, useGlobalFilter, useSortBy)
 	const getTable = async () => {
 		try {
 			await axios
@@ -69,6 +80,9 @@ const table = () => {
 			}
 		}
 	}
+
+	const { globalFilter } = state
+
 	useEffect(() => {
 		getTable()
 	}, [])
@@ -151,8 +165,8 @@ const table = () => {
 									<input
 										className='cursor-pointer'
 										placeholder='Type to search...'
-										value={searchQuery}
-										onChange={SearchHandler}
+										value={globalFilter}
+										onChange={(e) => setGlobalFilter(e.target.value)}
 									/>
 								</div>
 								<div className='new-arrow flex flex-row cursor-pointer'>
