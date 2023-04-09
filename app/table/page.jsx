@@ -18,13 +18,13 @@ const table = () => {
 		setSearchQuery(e.target.value)
 	}
 
-	const searchFunction = () => {
-		data.filter((item) => {
-			return searchQuery.toLowerCase() === ''
-				? item
-				: item.first_name.toLowerCase().includes(searchQuery)
-		})
-	}
+	// const searchFunction = () => {
+	// 	data.filter((item) => {
+	// 		return searchQuery.toLowerCase() === ''
+	// 			? item
+	// 			: item.first_name.toLowerCase().includes(searchQuery)
+	// 	})
+	// }
 	const columns = React.useMemo(
 		() => [
 			{
