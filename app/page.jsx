@@ -5,9 +5,7 @@ import Image from 'next/image'
 import Logo from './assets/LoginPage/FastJobs_Logo.png'
 import { PrimaryButton } from './components/Buttons'
 import axios from 'axios'
-import Cookies from 'js-cookie'
 import { useAuth } from './context/AuthContext'
-import { cookies } from 'next/dist/client/components/headers'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -15,8 +13,6 @@ axios.defaults.withCredentials = true
 const LoginPage = () => {
 	const [username, setUsername] = useState('johndoe')
 	const [password, setPassword] = useState('password')
-	const [loader, setLoader] = useState(true)
-
 	const { setUserAuthenticated } = useAuth()
 	const loginHandler = async () => {
 		try {
@@ -37,7 +33,7 @@ const LoginPage = () => {
 		} catch (err) {
 			console.log(err)
 			if (err.response.data.message === 'Unauthorized') {
-				toast.error('Invalid Credentials !', {
+				toast.error('Please check your username and password', {
 					position: toast.POSITION.TOP_RIGHT,
 				})
 			}

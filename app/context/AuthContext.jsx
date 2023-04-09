@@ -1,11 +1,5 @@
 'use client'
-import {
-	createContext,
-	useCallback,
-	useContext,
-	useEffect,
-	useState,
-} from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 
@@ -24,6 +18,7 @@ const AuthContextProvider = ({ children }) => {
 						console.log(response)
 						router.push('./../table')
 					})
+				setUserAuthenticated(false)
 			}
 		} catch (err) {
 			console.log(err)

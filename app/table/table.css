@@ -12,6 +12,10 @@ table th {
 	padding: 20px;
 }
 
+table th {
+	cursor: pointer;
+}
+
 thead {
 	position: sticky;
 	top: 0;

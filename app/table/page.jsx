@@ -10,20 +10,17 @@ import MemoImage from './../assets/TablePage/Memo@2x.png'
 import Image from 'next/image'
 import Search from './../assets/TablePage/Search.svg'
 import Arrow from './../assets/TablePage/Vector.svg'
-import Cookies from 'js-cookie'
-import { useAuth } from '../context/AuthContext'
 import { useRouter } from 'next/navigation'
 
 const table = () => {
 	const [data, setData] = useState([])
 	const [searchQuery, setSearchQuery] = useState('')
 	const [loader, setLoader] = useState(true)
+	const router = useRouter()
 	const SearchHandler = (e) => {
 		e.preventDefault()
 		setSearchQuery(e.target.value)
 	}
-	const router = useRouter()
-	const { userAuthenticated } = useAuth()
 	const columns = React.useMemo(
 		() => [
 			{
@@ -53,22 +50,27 @@ const table = () => {
 	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
 		useTable({ columns, data }, useSortBy)
 	const getTable = async () => {
-		await axios
-			.get(
-				'https://frontendtestapi.staging.fastjobs.io/data?page1&results=10',
-				{
-					withCredentials: true,
-				}
-			)
-			.then((res) => {
-				console.log(res)
-				setData(res.data)
-				setLoader(false)
-			})
+		try {
+			await axios
+				.get(
+					'https://frontendtestapi.staging.fastjobs.io/data?page1&results=10',
+					{
+						withCredentials: true,
+					}
+				)
+				.then((res) => {
+					console.log(res)
+					setData(res.data)
+					setLoader(false)
+				})
+		} catch (err) {
+			if (err.response.data.statusCode) {
+				router.push('/')
+			}
+		}
 	}
 	useEffect(() => {
 		getTable()
-		console.log(Cookies.get('authToken'), '........')
 	}, [])
 	return (
 		<>
@@ -122,9 +124,9 @@ const table = () => {
 										/>
 									</div>
 
-									<div>Table view</div>
+									<div className='cursor-pointer'>Table view</div>
 								</div>
-								<div className='flex flex-row gap-1 items-center'>
+								<div className='flex flex-row gap-1 items-center cursor-pointer'>
 									<Image
 										src={KanbanImage}
 										alt='Logo'
@@ -132,12 +134,12 @@ const table = () => {
 										height={10}
 										quality={79}
 									/>
-									<div>Kanban</div>
+									<div className='cursor-pointer'>Kanban</div>
 								</div>
 							</div>
-							<div className='table-filter-right flex flex-row gap-5'>
-								<div>Sort</div>
-								<div>Filter</div>
+							<div className='table-filter-right flex flex-row gap-5 '>
+								<div className='cursor-pointer'> Sort</div>
+								<div className='cursor-pointer'>Filter</div>
 								<div className='flex flex-row gap-2'>
 									<Image
 										src={Search}
@@ -147,12 +149,13 @@ const table = () => {
 										quality={79}
 									/>
 									<input
+										className='cursor-pointer'
 										placeholder='Type to search...'
 										value={searchQuery}
 										onChange={SearchHandler}
 									/>
 								</div>
-								<div className='new-arrow flex flex-row '>
+								<div className='new-arrow flex flex-row cursor-pointer'>
 									<div className='new'>New</div>
 
 									<div className='flex new-icon items-center justify-center '>
