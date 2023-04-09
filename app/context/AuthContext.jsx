@@ -32,7 +32,6 @@ const AuthContextProvider = ({ children }) => {
 
 	useEffect(() => {
 		isAuthenticated()
-		console.log('useEffect called')
 	}, [userAuthenticated])
 
 	return (

@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './page.css'
 import Image from 'next/image'
 import Logo from './assets/LoginPage/FastJobs_Logo.png'
@@ -7,13 +7,17 @@ import { PrimaryButton } from './components/Buttons'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import { useAuth } from './context/AuthContext'
+import { cookies } from 'next/dist/client/components/headers'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 axios.defaults.withCredentials = true
 const LoginPage = () => {
 	const [username, setUsername] = useState('johndoe')
 	const [password, setPassword] = useState('password')
+	const [loader, setLoader] = useState(true)
 
-	const { userAuthenticated, setUserAuthenticated } = useAuth()
+	const { setUserAuthenticated } = useAuth()
 	const loginHandler = async () => {
 		try {
 			await axios
@@ -27,55 +31,22 @@ const LoginPage = () => {
 				)
 				.then(async (response) => {
 					if (response.data.message === 'success') {
-						// await axios
-						// 	.get(`https://frontendtestapi.staging.fastjobs.io/auth/me`, {
-						// 		withCredentials: true,
-						// 	})
-						// 	.then((response) => {
-						console.log(response)
-						// 	})
 						setUserAuthenticated(true)
 					}
 				})
-
-			// const response = await axios.post(
-			// 	'https://frontendtestapi.staging.fastjobs.io/auth/login',
-			// 	{
-			// 		username: username.toLowerCase(),
-			// 		password: password,
-			// 	},
-			// 	{ withCredentials: true }
-			// )
-			// const cookies = Cookies.
-			// console.log(cookies) // Do something with the
 		} catch (err) {
 			console.log(err)
+			if (err.response.data.message === 'Unauthorized') {
+				toast.error('Invalid Credentials !', {
+					position: toast.POSITION.TOP_RIGHT,
+				})
+			}
 		}
 	}
 
-	const loginHandler2 = async () => {
-		try {
-			await axios
-				.get(`https://frontendtestapi.staging.fastjobs.io/auth/me`, {
-					withCredentials: true,
-				})
-				.then((response) => {
-					console.log(response)
-				})
-		} catch (err) {
-			console.log(err)
-		}
-		await fetch(`https://frontendtestapi.staging.fastjobs.io/auth/me`, {
-			method: 'GET',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-			credentials: 'include',
-		})
-	}
-
-	console.log(userAuthenticated)
+	useEffect(() => {
+		setUserAuthenticated(false)
+	}, [])
 
 	return (
 		<div className='main-container flex justify-between '>
@@ -136,6 +107,7 @@ const LoginPage = () => {
 					<PrimaryButton title='Continue' onClick={loginHandler} />
 				</div>
 			</div>
+			<ToastContainer />
 		</div>
 	)
 }
