@@ -11,10 +11,16 @@ import 'react-toastify/dist/ReactToastify.css'
 
 axios.defaults.withCredentials = true
 const LoginPage = () => {
-	const [username, setUsername] = useState('johndoe')
-	const [password, setPassword] = useState('password')
+	const [username, setUsername] = useState('')
+	const [password, setPassword] = useState('')
 	const { setUserAuthenticated } = useAuth()
 	const loginHandler = async () => {
+		if (username || password === '') {
+			toast.error('Username or Password cannot be empty!', {
+				position: toast.POSITION.TOP_RIGHT,
+			})
+			return
+		}
 		try {
 			await axios
 				.post(
@@ -92,13 +98,15 @@ const LoginPage = () => {
 					</div>
 					<div className='username-password flex flex-col'>
 						<label className='text-white text-xs'>Password</label>
-						<input
-							className='username-input'
-							value={password}
-							onChange={(e) => {
-								setPassword(e.target.value)
-							}}
-						/>
+						<div>
+							<input
+								className='username-input relative'
+								value={password}
+								onChange={(e) => {
+									setPassword(e.target.value)
+								}}
+							/>
+						</div>
 					</div>
 					<PrimaryButton title='Continue' onClick={loginHandler} />
 				</div>
