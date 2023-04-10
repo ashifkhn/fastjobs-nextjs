@@ -15,12 +15,6 @@ const LoginPage = () => {
 	const [password, setPassword] = useState('')
 	const { setUserAuthenticated } = useAuth()
 	const loginHandler = async () => {
-		if (username || password === '') {
-			toast.error('Username or Password cannot be empty!', {
-				position: toast.POSITION.TOP_RIGHT,
-			})
-			return
-		}
 		try {
 			await axios
 				.post(
